@@ -1,0 +1,1 @@
+Verificar se reserva não existe no pipe específico do anfitrião. Pode existir no pipe do antigo responsável.

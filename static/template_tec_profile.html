@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8"/>
+  <title>Ficha técnica do imóvel {{property_code}}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+
+<body style="margin: 0; padding: 0; font-family: helvetica;">
+
+  <table style="font-family: Verdana, sans-serif, 'Open Sans'; text-align: center;" border="1" width="80%" height="80%" align='center'>
+    <tr>
+      <td><b>Código da Acomodação</b></td>
+      <td><b>{{property_code}}</b></td>
+    </tr>
+
+    <tr>
+      <td>Logradouro</td>
+      <td>{{street_name}}</td>
+    </tr>
+
+    <tr>
+      <td>Número</td>
+      <td>{{address_number}}</td>
+    </tr>
+
+    <tr>
+      <td>Complemento</td>
+      <td>{{complementary_info}}</td>
+    </tr>
+
+    <tr>
+      <td>CEP</td>
+      <td>{{zip_code}}</td>
+    </tr>
+
+    <tr>
+      <td>Bairro</td>
+      <td>{{neighborhood}}</td>
+    </tr>
+
+    <tr>
+      <td>Cidade</td>
+      <td>{{city_name}}</td>
+    </tr>
+
+    <tr>
+      <td>Estado</td>
+      <td>{{state_name}}</td>
+    </tr>
+  </table>
+
+  <table style="font-family: Verdana, sans-serif, 'Open Sans'; text-align: center;" border="1" width="80%" height="80%" align='center' id="living_room">
+    <tr>
+      <td colspan="2"><h2>Sala de Estar</h2></td>
+    </tr>
+
+    <tr>
+      <td>Possui ar-condicionado</td>
+      <td>{{lr_has_ac}}</td>
+    </tr>
+
+    <tr>
+      <td>Modelo ar-condicionado</td>
+      <td>{{lr_ac_model}}</td>
+    </tr>
+
+    <tr>
+      <td>Possui TV</td>
+      <td>{{lr_has_tv}}</td>
+    </tr>
+
+    <tr>
+      <td>Modelo TV</td>
+      <td>{{lr_tv_model}}</td>
+    </tr>
+
+    <tr>
+      <td>Possui antena digital</td>
+      <td>{{lr_has_digital_antena}}</td>
+    </tr>
+
+    <tr>
+      <td>Possui TV a cabo</td>
+      <td>{{lr_has_cable}}</td>
+    </tr>
+
+    <tr>
+      <td>Qual operadora e plano da TV a cabo</td>
+      <td>{{lr_cable_data}}</td>
+    </tr>
+
+    <tr>
+      <td>Possui wi-fi</td>
+      <td>{{lr_has_wifi}}</td>
+    </tr>
+
+    <tr>
+      <td>Qual o plano, operadora, usuário e senha e dados do titular do contrato da internet?</td>
+      <td>{{lr_wifi_data}}</td>
+    </tr>
+
+    <tr>
+      <td>Outras observações relevantes sobre a sala de estar</td>
+      <td>{{lr_other_info}}</td>
+    </tr>
+
+    <tr>
+      <td>Pedidos especiais do proprietário em relação à zeladoria da sala de estar</td>
+      <td>{{lr_special_requests}}</td>
+    </tr>
+
+    <table style="font-family: Verdana, sans-serif, 'Open Sans'; text-align: center;" border="1" width="80%" height="80%" align='center' colspan="2">
+      {% for item in lr_photos %}
+      {% if loop.index % 2 != 0 %}
+      <tr>
+        <td><img style='width: 500px' src="{{item}}" alt="foto sala de estar"></td>
+      {% else %}
+        <td><img style='width: 500px' src="{{item}}" alt="foto sala de estar"></td>
+      </tr>
+      {% endif %}
+      {% endfor %}
+    </table>
+  </table>
+
+  <table style="font-family: Verdana, sans-serif, 'Open Sans'; text-align: center;" border="1" width="80%" height="80%" align='center' id="kitchen">
+    <tr>
+      <td colspan="2"><h2>Cozinha</h2></td>
+    </tr>
+
+    <tr>
+      <td>Possui fogão</td>
+      <td>{{ki_has_stove}}</td>
+    </tr>
+
+    <tr>
+      <td>Modelo fogão</td>
+      <td>{{ki_stove_model}}</td>
+    </tr>
+
+    <tr>
+      <td>Possui forno</td>
+      <td>{{ki_has_oven}}</td>
+    </tr>
+
+    <tr>
+      <td>Modelo forno</td>
+      <td>{{ki_oven_model}}</td>
+    </tr>
+
+    <tr>
+      <td>Possui micro-ondas</td>
+      <td>{{ki_has_mw}}</td>
+    </tr>
+
+    <tr>
+      <td>Modelo micro-ondas</td>
+      <td>{{ki_mw_model}}</td>
+    </tr>
+
+    <tr>
+      <td>Possui geladeira</td>
+      <td>{{ki_has_fridge}}</td>
+    </tr>
+
+    <tr>
+      <td>Modelo geladeira</td>
+      <td>{{ki_fridge_model}}</td>
+    </tr>
+
+    <tr>
+      <td>Possui freezer (separado da geladeira)</td>
+      <td>{{ki_has_freezer}}</td>
+    </tr>
+
+    <tr>
+      <td>Modelo freezer</td>
+      <td>{{ki_freezer_model}}</td>
+    </tr>
+
+    <tr>
+      <td>Possui máquina de lavar louça</td>
+      <td>{{ki_has_washm}}</td>
+    </tr>
+
+    <tr>
+      <td>Modelo máquina de lavar louça</td>
+      <td>{{ki_washm_model}}</td>
+    </tr>
+
+    <tr>
+      <td>Possui chaleira elétrica</td>
+      <td>{{ki_has_ekettle}}</td>
+    </tr>
+
+    <tr>
+      <td>Modelo chaleira elétrica</td>
+      <td>{{ki_ekettle_model}}</td>
+    </tr>
+
+    <tr>
+      <td>Possui cafeteira elétrica</td>
+      <td>{{ki_has_coffema}}</td>
+    </tr>
+
+    <tr>
+      <td>Modelo cafeteira elétrica</td>
+      <td>{{ki_coffema_model}}</td>
+    </tr>
+
+    <tr>
+      <td>Possui liquidificador</td>
+      <td>{{ki_has_blender}}</td>
+    </tr>
+
+    <tr>
+      <td>Modelo liquidificador</td>
+      <td>{{ki_blender_model}}</td>
+    </tr>
+
+    <tr>
+      <td>Possui sanduicheira</td>
+      <td>{{ki_has_grill}}</td>
+    </tr>
+
+    <tr>
+      <td>Modelo sanduicheira</td>
+      <td>{{ki_grill_model}}</td>
+    </tr>
+
+    <tr>
+      <td>Utensílios de cozinha autorizados a manter</td>
+      <td>{{ki_utensils}}</td>
+    </tr>
+
+    <tr>
+      <td>Outras informações relevantes da cozinha</td>
+      <td>{{ki_special_requests}}</td>
+    </tr>
+
+    <table style="font-family: Verdana, sans-serif, 'Open Sans'; text-align: center;" border="1" width="80%" height="80%" align='center'>
+      {% for item in ki_photos %}
+      {% if loop.index % 2 != 0 %}
+      <tr>
+        <td><img style='width: 500px' src="{{item}}" alt="foto cozinha"></td>
+      {% else %}
+        <td><img style='width: 500px' src="{{item}}" alt="foto cozinha"></td>
+      </tr>
+      {% endif %}
+      {% endfor %}
+    </table>
+  </table>
+
+  <table style="font-family: Verdana, sans-serif, 'Open Sans'; text-align: center;" border="1" width="80%" height="80%" align='center' id="wash_room">
+    <tr>
+      <td colspan="2"><h2>Área de Serviço</h2></td>
+    </tr>
+
+    <tr>
+      <td>Possui máquina de lavar roupas</td>
+      <td>{{wr_has_washm}}</td>
+    </tr>
+
+    <tr>
+      <td>Modelo máquina de lavar roupas</td>
+      <td>{{wr_washm_model}}</td>
+    </tr>
+
+    <tr>
+      <td>Possui ferro de passar</td>
+      <td>{{wr_has_iron}}</td>
+    </tr>
+
+    <tr>
+      <td>Modelo ferro de passar</td>
+      <td>{{wr_iron_model}}</td>
+    </tr>
+
+    <tr>
+      <td>Possui mesa para passar roupas</td>
+      <td>{{wr_has_table}}</td>
+    </tr>
+
+    <tr>
+      <td>Outras informações relevantes da área de serviço</td>
+      <td>{{wr_special_requests}}</td>
+    </tr>
+
+    <table style="font-family: Verdana, sans-serif, 'Open Sans'; text-align: center;" border="1" width="80%" height="80%" align='center'>
+      {% for item in wr_photos %}
+      {% if loop.index % 2 != 0 %}
+      <tr>
+        <td><img style='width: 500px' src="{{item}}" alt="foto área de serviço"></td>
+      {% else %}
+        <td><img style='width: 500px' src="{{item}}" alt="foto área de serviço"></td>
+      </tr>
+      {% endif %}
+      {% endfor %}
+    </table>
+  </table>
+
+  <table style="font-family: Verdana, sans-serif, 'Open Sans'; text-align: center;" border="1" width="80%" height="80%" align='center' id="outside">
+    <tr>
+      <td colspan="2"><h2>Área Externa Privativa</h2></td>
+    </tr>
+
+    <tr>
+      <td>Possui sacada/área externa privativa</td>
+      <td>{{out_has_out}}</td>
+    </tr>
+
+    <tr>
+      <td>Possui jardimr</td>
+      <td>{{out_has_garden}}</td>
+    </tr>
+
+    <tr>
+      <td>Possui churrasqueira</td>
+      <td>{{out_has_barbecue}}</td>
+    </tr>
+
+    <tr>
+      <td>Outras informações relevantes da área externa privativa</td>
+      <td>{{out_special_requests}}</td>
+    </tr>
+
+    <table style="font-family: Verdana, sans-serif, 'Open Sans'; text-align: center;" border="1" width="80%" height="80%" align='center'>
+      {% for item in out_photos %}
+      {% if loop.index % 2 != 0 %}
+      <tr>
+        <td><img style='width: 500px' src="{{item}}" alt="foto área externa"></td>
+      {% else %}
+        <td><img style='width: 500px' src="{{item}}" alt="foto área externa"></td>
+      </tr>
+      {% endif %}
+      {% endfor %}
+    </table>
+  </table>
+
+  <table style="font-family: Verdana, sans-serif, 'Open Sans'; text-align: center;" border="1" width="80%" height="80%" align='center' id="suite_number">
+    <tr>
+      <td colspan="2"><h2>Suítes</h2></td>
+    </tr>
+
+    <tr>
+      <td>Quantidade</td>
+      <td>{{number_suites}}</td>
+    </tr>
+  </table>
+
+  {% for room in suits_dict_list %}
+  <table style="font-family: Verdana, sans-serif, 'Open Sans'; text-align: center;" border="1" width="80%" height="80%" align='center' id="suite {{room['number']}}">
+    <tr>
+      <td colspan="2"><h2>Suíte {{room["number"]}}</h2></td>
+    </tr>
+
+    <tr>
+      <td>Quantidade camas de casal</td>
+      <td>{{room["number_beds"]}}</td>
+    </tr>
+
+    <tr>
+      <td>Descrição camas de casal</td>
+      <td>{{room["beds_description"]}}</td>
+    </tr>
+
+    <tr>
+      <td>Quantidade camas de solteiro</td>
+      <td>{{room["number_twin_beds"]}}</td>
+    </tr>
+
+    <tr>
+      <td>Descrição camas de solteiro</td>
+      <td>{{room["twin_beds_description"]}}</td>
+    </tr>
+
+    <tr>
+      <td>Possui ar-condicionado</td>
+      <td>{{room["has_ac"]}}</td>
+    </tr>
+
+    <tr>
+      <td>Modelo ar-condicionado</td>
+      <td>{{room["ac_model"]}}</td>
+    </tr>
+
+    <tr>
+      <td>Possui TV</td>
+      <td>{{room["has_tv"]}}</td>
+    </tr>
+
+    <tr>
+      <td>Modelo TV</td>
+      <td>{{room["tv_model"]}}</td>
+    </tr>
+
+    <tr>
+      <td>TV antena ou a cabo?</td>
+      <td>{{room["tv_type"]}}</td>
+    </tr>
+
+    <tr>
+      <td>Outras informações relevantes da suíte {{room["number"]}}</td>
+      <td>{{room["extra_info"]}}</td>
+    </tr>
+
+    <tr>
+      <td>Possui chuveiro</td>
+      <td>{{room["has_shower"]}}</td>
+    </tr>
+
+    <tr>
+      <td>Possui banheira</td>
+      <td>{{room["has_bath"]}}</td>
+    </tr>
+
+    <tr>
+      <td>Aquecimento água</td>
+      <td>{{room["water_heating"]}}</td>
+    </tr>
+
+    <table style="font-family: Verdana, sans-serif, 'Open Sans'; text-align: center;" border="1" width="80%" height="80%" align='center'>
+      {% for item in room["photos"] %}
+      {% if loop.index % 2 != 0 %}
+      <tr>
+        <td><img style='width: 500px' src="{{item}}" alt="foto suíte {{room["number"]}}"></td>
+      {% else %}
+        <td><img style='width: 500px' src="{{item}}" alt="foto suíte {{room["number"]}}"></td>
+      </tr>
+      {% endif %}
+      {% endfor %}
+    </table>
+  </table>
+  {% endfor %}
+
+  <table style="font-family: Verdana, sans-serif, 'Open Sans'; text-align: center;" border="1" width="80%" height="80%" align='center' id="room_number">
+    <tr>
+      <td colspan="2"><h2>Quartos regulares</h2></td>
+    </tr>
+
+    <tr>
+      <td>Quantidade</td>
+      <td>{{number_rooms}}</td>
+    </tr>
+  </table>
+
+  {% for room in room_dict_list %}
+  <table style="font-family: Verdana, sans-serif, 'Open Sans'; text-align: center;" border="1" width="80%" height="80%" align='center' id="quarto {{room['number']}}">
+    <tr>
+      <td colspan="2"><h2>Suíte {{room["number"]}}</h2></td>
+    </tr>
+
+    <tr>
+      <td>Quantidade camas de casal</td>
+      <td>{{room["number_beds"]}}</td>
+    </tr>
+
+    <tr>
+      <td>Descrição camas de casal</td>
+      <td>{{room["beds_description"]}}</td>
+    </tr>
+
+    <tr>
+      <td>Quantidade camas de solteiro</td>
+      <td>{{room["number_twin_beds"]}}</td>
+    </tr>
+
+    <tr>
+      <td>Descrição camas de solteiro</td>
+      <td>{{room["twin_beds_description"]}}</td>
+    </tr>
+
+    <tr>
+      <td>Possui ar-condicionado</td>
+      <td>{{room["has_ac"]}}</td>
+    </tr>
+
+    <tr>
+      <td>Modelo ar-condicionado</td>
+      <td>{{room["ac_model"]}}</td>
+    </tr>
+
+    <tr>
+      <td>Possui TV</td>
+      <td>{{room["has_tv"]}}</td>
+    </tr>
+
+    <tr>
+      <td>Modelo TV</td>
+      <td>{{room["tv_model"]}}</td>
+    </tr>
+
+    <tr>
+      <td>TV antena ou a cabo?</td>
+      <td>{{room["tv_type"]}}</td>
+    </tr>
+
+    <tr>
+      <td>Outras informações relevantes da suíte room["number"]</td>
+      <td>{{out_special_requests}}</td>
+    </tr>
+
+    <table style="font-family: Verdana, sans-serif, 'Open Sans'; text-align: center;" border="1" width="80%" height="80%" align='center'>
+      {% for item in room["photos"] %}
+      {% if loop.index % 2 != 0 %}
+      <tr>
+        <td><img style='width: 500px' src="{{item}}" alt="foto quarto {{room["number"]}}"></td>
+      {% else %}
+        <td><img style='width: 500px' src="{{item}}" alt="foto quarto {{room["number"]}}"></td>
+      </tr>
+      {% endif %}
+      {% endfor %}
+    </table>
+  </table>
+  {% endfor %}
+
+  <table style="font-family: Verdana, sans-serif, 'Open Sans'; text-align: center;" border="1" width="80%" height="80%" align='center' id="bathroom_number">
+    <tr>
+      <td colspan="2"><h2>Banheiros sociais</h2></td>
+    </tr>
+
+    <tr>
+      <td>Quantidade</td>
+      <td>{{number_bathrooms}}</td>
+    </tr>
+  </table>
+
+  {% for room in bathroom_dict_list %}
+  <table style="font-family: Verdana, sans-serif, 'Open Sans'; text-align: center;" border="1" width="80%" height="80%" align='center' id="banheiro {{room['number']}}">
+    <tr>
+      <td colspan="2"><h2>Suíte {{room["number"]}}</h2></td>
+    </tr>
+
+    <tr>
+      <td>Possui chuveiro</td>
+      <td>{{room["has_shower"]}}</td>
+    </tr>
+
+    <tr>
+      <td>Possui banheira</td>
+      <td>{{room["has_bath"]}}</td>
+    </tr>
+
+    <tr>
+      <td>Aquecimento água</td>
+      <td>{{room["water_heating"]}}</td>
+    </tr>
+
+    <table style="font-family: Verdana, sans-serif, 'Open Sans'; text-align: center;" border="1" width="80%" height="80%" align='center'>
+      {% for item in room["photos"] %}
+      {% if loop.index % 2 != 0 %}
+      <tr>
+        <td><img style='width: 500px' src="{{item}}" alt="foto banheiro social"></td>
+      {% else %}
+        <td><img style='width: 500px' src="{{item}}" alt="foto banheiro social"></td>
+      </tr>
+      {% endif %}
+      {% endfor %}
+    </table>
+  </table>
+  {% endfor %}
+
+  <table style="font-family: Verdana, sans-serif, 'Open Sans'; text-align: center;" border="1" width="80%" height="80%" align='center' id="wc_number">
+    <tr>
+      <td colspan="2"><h2>Lavabos</h2></td>
+    </tr>
+
+    <tr>
+      <td>Quantidade</td>
+      <td>{{number_wcs}}</td>
+    </tr>
+  </table>
+
+  {% for room in wc_dict_list %}
+  <table style="font-family: Verdana, sans-serif, 'Open Sans'; text-align: center;" border="1" width="80%" height="80%" align='center' id="banheiro {{room['number']}}">
+    <tr>
+      <td colspan="2"><h2>Lavabo {{room["number"]}}</h2></td>
+    </tr>
+
+    <table style="font-family: Verdana, sans-serif, 'Open Sans'; text-align: center;" border="1" width="80%" height="80%" align='center'>
+      {% for item in room["photos"] %}
+      {% if loop.index % 2 != 0 %}
+      <tr>
+        <td><img style='width: 500px' src="{{item}}" alt="foto lavabo"></td>
+      {% else %}
+        <td><img style='width: 500px' src="{{item}}" alt="foto lavabo"></td>
+      </tr>
+      {% endif %}
+      {% endfor %}
+    </table>
+  </table>
+  {% endfor %}
+
+  <table style="font-family: Verdana, sans-serif, 'Open Sans'; text-align: center;" border="1" width="80%" height="80%" align='center' id="parking_number">
+    <tr>
+      <td colspan="2"><h2>Estacionamento</h2></td>
+    </tr>
+
+    <tr>
+      <td>Número de vagas</td>
+      <td>{{number_parking_spots}}</td>
+    </tr>
+
+    <tr>
+      <td>Descrição das vagas</td>
+      <td>{{parking_spots_description}}</td>
+    </tr>
+
+    <table style="font-family: Verdana, sans-serif, 'Open Sans'; text-align: center;" border="1" width="80%" height="80%" align='center'>
+      {% for item in parking_photos %}
+      {% if loop.index % 2 != 0 %}
+      <tr>
+        <td><img style='width: 500px' src="{{item}}" alt="foto estacionamento"></td>
+      {% else %}
+        <td><img style='width: 500px' src="{{item}}" alt="foto estacionamento"></td>
+      </tr>
+      {% endif %}
+      {% endfor %}
+    </table>
+  </table>
+
+  <table style="font-family: Verdana, sans-serif, 'Open Sans'; text-align: center;" border="1" width="80%" height="80%" align='center' id="building_info">
+    <tr>
+      <td colspan="2"><h2>Condomínio</h2></td>
+    </tr>
+
+    <tr>
+      <td>Nome condomínios</td>
+      <td>{{building_name}}</td>
+    </tr>
+
+    <tr>
+      <td>O que o condomínio oferece?</td>
+      <td>{{building_ammenities}}</td>
+    </tr>
+
+    <tr>
+      <td>Regras do condomínio para hóspedes</td>
+      <td>{{building_rules}}</td>
+    </tr>
+
+    <tr>
+      <td>Contatos do condomínio</td>
+      <td>{{building_contacts}}</td>
+    </tr>
+
+    <tr>
+      <td>Como deve ser realizado o cadastro no condomínio</td>
+      <td>{{building_registration}}</td>
+    </tr>
+
+    <table style="font-family: Verdana, sans-serif, 'Open Sans'; text-align: center;" border="1" width="80%" height="80%" align='center'>
+      {% for item in building_photos %}
+      {% if loop.index % 2 != 0 %}
+      <tr>
+        <td><img style='width: 500px' src="{{item}}" alt="foto condomínio"></td>
+      {% else %}
+        <td><img style='width: 500px' src="{{item}}" alt="foto condomínio"></td>
+      </tr>
+      {% endif %}
+      {% endfor %}
+    </table>
+  </table>
+
+  <table style="font-family: Verdana, sans-serif, 'Open Sans'; text-align: center;" border="1" width="80%" height="80%" align='center' id="emergency_info">
+    <tr>
+      <td colspan="2"><h2>Dados de emergência</h2></td>
+    </tr>
+
+    <tr>
+      <td>Localização quadro de disjuntores</td>
+      <td>{{circuit_board}}</td>
+    </tr>
+
+    <tr>
+      <td>Local registro geral de água</td>
+      <td>{{water_shutoff}}</td>
+    </tr>
+
+    <tr>
+      <td>Localização registro de gás ou botijão</td>
+      <td>{{gas_location}}</td>
+    </tr>
+
+    <table style="font-family: Verdana, sans-serif, 'Open Sans'; text-align: center;" border="1" width="80%" height="80%" align='center'>
+      {% for item in emergency_photos %}
+      {% if loop.index % 2 != 0 %}
+      <tr>
+        <td><img style='width: 500px' src="{{item}}" alt="foto infos emergência"></td>
+      {% else %}
+        <td><img style='width: 500px' src="{{item}}" alt="foto infos emergência"></td>
+      </tr>
+      {% endif %}
+      {% endfor %}
+    </table>
+  </table>
+
+  <table style="font-family: Verdana, sans-serif, 'Open Sans'; text-align: center;" border="1" width="80%" height="80%" align='center' id="other_info">
+    <tr>
+      <td colspan="2"><h2>Outras informações</h2></td>
+    </tr>
+
+    <tr>
+      <td>Possui secador de cabelo</td>
+      <td>{{has_hair_dryer}}</td>
+    </tr>
+
+    <tr>
+      <td>Modelo secador de cabelo</td>
+      <td>{{hair_dryer_model}}</td>
+    </tr>
+
+  </table>
+
+
+</body>
+
+</html>
