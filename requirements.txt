@@ -1,0 +1,17 @@
+#selenim for opening webbrwoser and interacting with webpages
+selenium==3.141.0
+
+
+#openpyxl for accessing data in our spreadsheets
+openpyxl==3.0.2
+xlrd>=1.0.0
+
+#pandas for accessing csv databases
+pandas==0.24.0
+numpy==1.18.0
+
+#jinja2 for rendering templates
+jinja2==2.11.2
+
+#click for creating command line args for executing functions
+click==7.1.2
