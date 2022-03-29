@@ -22,9 +22,9 @@ backups_dir = os.getcwd() + "\\backup files"
 
 #async function make multiple independent calls
 call_count = 0
-async def makeAsyncApiCalls(key_paramsDict, query):
+def makeAsyncApiCalls(key_paramsDict, query):
 
-    async def one_query(api_key, query_var, params):
+    def one_query(api_key, query_var, params):
 
         response_date = []
         headers = {
@@ -43,44 +43,18 @@ async def makeAsyncApiCalls(key_paramsDict, query):
 
         while True:
             try:
-                async with Client(
-                    transport=transport, fetch_schema_from_transport=True,
-                ) as session:
-
-                    result = await session.execute(query_var, variable_values=params)
-                    response_date.append(result)
-                    return response_date
-                    break
-
-            except asyncio.TimeoutError:
-                print("asyncio.TimeoutError")
-                return None
+                result = requests.request("POST", "https://api.pipefy.com/graphql", json={"query": query_var, "variables": params}, headers=headers)
+                response_date.append(json.loads(result.text)["data"])
+                return response_date
                 break
-
-            except aiohttp.client_exceptions.ServerDisconnectedError:
-                print("aiohttp.client_exceptions.ServerDisconnectedError")
-                continue
-
-            except aiohttp.client_exceptions.ClientOSError:
-                print("aiohttp.client_exceptions.ClientOSError")
-                continue
-
-            except gql.transport.exceptions.TransportServerError:
-                print("gql.transport.exceptions.TransportServerError")
-                continue
-
-            except RuntimeError:
-                print("RuntimeError")
-                continue
-
             except:
                 print(key_paramsDict)
                 print(query)
                 raise Exception("Erro \n\n {} \n\n {}".format(key_paramsDict, query))
-
+            
 
     coros = [one_query(api_key=_["api_key"], query_var=query, params=_["params"]) for _ in  key_paramsDict]
-    return await asyncio.gather(*coros)
+    return coros
 
 #build async function for continuous calls pull dbs
 
@@ -96,7 +70,7 @@ RESERVATIONCARDS_LOCATION = files_dir + "\\bdCardsReservas.xlsx"
 AFFILIATES_PROPERTYDB_LOCATION = files_dir + "\\bdPropriedadesAfiliados.xlsx"
 
 #inputData
-RESERVATIONS_SHEET_LOCATION = data_sources.UPDATE_RESERVATIONS_FOLDER + "\\reservas.csv"
+RESERVATIONS_SHEET_LOCATION = files_dir + "\\reservas.csv"
 #FORMS_SHEET_LOCATION = data_sources.UPDATE_RESERVATIONS_FOLDER + "\\forms.csv"
 FORMS_SHEET_LOCATION = files_dir + "\\forms.xlsx"
 

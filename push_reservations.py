@@ -51,8 +51,7 @@ def addNewReservations(ResDF, reservationCardsDB, affiliatesDBDF, propertiesDBDF
     def date2APIFormat(date_val):
         return date_val[-4:] + "-" + date_val[3:5] + "-" + date_val[0:2]
 
-    newResQuery = GQL(
-        """
+    newResQuery = """
         mutation($paramResCode: [UndefinedInput], $paramPropCode: [UndefinedInput], $paramResDate: [UndefinedInput],
                  $paramInDate: [UndefinedInput], $paramOutDate: [UndefinedInput], $paramGuestName: [UndefinedInput],
                  $paramPhone: [UndefinedInput], $paramLanguage: [UndefinedInput], $paramGuestNumber: [UndefinedInput], $paramPortal: [UndefinedInput],
@@ -89,7 +88,7 @@ def addNewReservations(ResDF, reservationCardsDB, affiliatesDBDF, propertiesDBDF
             }
         }
         """
-    )
+    
 
     def nanHandling(val):
         if val != val:
@@ -170,7 +169,7 @@ def addNewReservations(ResDF, reservationCardsDB, affiliatesDBDF, propertiesDBDF
 
     for chunk in divide_chunks(reservationsToPass, 200):
 
-        asyncio.run(makeAsyncApiCalls(chunk, newResQuery))
+        makeAsyncApiCalls(chunk, newResQuery)
         time.sleep(1)
 
 
@@ -236,8 +235,7 @@ def modifyReservationsWithChanges(ResDF, reservationCardsDB, affiliatesDBDF, pro
     newResToPass = []
     deleteResToPass = []
 
-    newResQuery = GQL(
-        """
+    newResQuery = """
         mutation($paramResCode: [UndefinedInput], $paramPropCode: [UndefinedInput], $paramResDate: [UndefinedInput],
                  $paramInDate: [UndefinedInput], $paramOutDate: [UndefinedInput], $paramGuestName: [UndefinedInput],
                  $paramPhone: [UndefinedInput], $paramLanguage: [UndefinedInput], $paramGuestNumber: [UndefinedInput], $paramPortal: [UndefinedInput],
@@ -274,10 +272,9 @@ def modifyReservationsWithChanges(ResDF, reservationCardsDB, affiliatesDBDF, pro
             }
         }
         """
-    )
+    
 
-    alterResQuery = GQL(
-    """
+    alterResQuery = """
     mutation($paramResCode: [UndefinedInput], $paramPropCode: [UndefinedInput], $paramResDate: [UndefinedInput],
              $paramInDate: [UndefinedInput], $paramOutDate: [UndefinedInput], $paramGuestName: [UndefinedInput],
              $paramPhone: [UndefinedInput], $paramLanguage: [UndefinedInput], $paramGuestNumber: [UndefinedInput], $paramPortal: [UndefinedInput],
@@ -318,10 +315,9 @@ def modifyReservationsWithChanges(ResDF, reservationCardsDB, affiliatesDBDF, pro
      }
     }
     """
-    )
+    
 
-    deleteCardQuery = GQL(
-    """
+    deleteCardQuery = """
     mutation($paramCardCode: ID!){
       deleteCard(input:{id: $paramCardCode}){
         clientMutationId
@@ -329,7 +325,7 @@ def modifyReservationsWithChanges(ResDF, reservationCardsDB, affiliatesDBDF, pro
       }
     }
     """
-    )
+    
 
     for index, row in alreadyLoadedResDF.iterrows():
 
@@ -433,17 +429,17 @@ def modifyReservationsWithChanges(ResDF, reservationCardsDB, affiliatesDBDF, pro
 
     for chunk in divide_chunks(alterationsToPass, 200):
 
-        asyncio.run(makeAsyncApiCalls(chunk, alterResQuery))
+        makeAsyncApiCalls(chunk, alterResQuery)
         time.sleep(1)
 
     for chunk in divide_chunks(newResToPass, 200):
 
-        asyncio.run(makeAsyncApiCalls(chunk, newResQuery))
+        makeAsyncApiCalls(chunk, newResQuery)
         time.sleep(1)
 
     for chunk in divide_chunks(deleteResToPass, 200):
 
-        asyncio.run(makeAsyncApiCalls(chunk, deleteCardQuery))
+        makeAsyncApiCalls(chunk, deleteCardQuery)
         time.sleep(1)
 
 

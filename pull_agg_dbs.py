@@ -32,6 +32,14 @@ def getPipePhasesIds(affiliatesDBDF):
         _df = pd.DataFrame(_buildDict, index=[0])
         return func_df.append(_df)
 
+    headers = {
+        "Authorization": "Bearer {}".format(config.token_main),
+        "Content-Type": "application/json"
+              }
+
+    url = "https://api.pipefy.com/graphql"
+        
+        
     phasesQuery = GQL(
     """
     query($paramPipeId: ID!){
@@ -45,20 +53,26 @@ def getPipePhasesIds(affiliatesDBDF):
             }
     """
     )
-
-    requestsToProcess = []
-    for index, row in affiliatesDBDF.iterrows():
-        params = {"paramPipeId" : row["ID pipe recepção"]}
-        dictToProcess = {"params" : params, "api_key" : row["Chave pipefy"]}
-        requestsToProcess.append(dictToProcess)
-
-    responses = asyncio.run(makeAsyncApiCalls(requestsToProcess, phasesQuery))
-
     pipePhasesDF = pd.DataFrame()
-    for response in responses:
-        pipePhasesDF = pipePhasesDF.append(processJsonDB(response[0]))
+    #requestsToProcess = []
+    for index, row in affiliatesDBDF.iterrows():
+        #params = {"paramPipeId" : row["ID pipe recepção"]}
+        #dictToProcess = {"params" : params, "api_key" : row["Chave pipefy"]}
+        print(row["ID pipe recepção"])
+        try:
+          payload = {"query": "{ pipe(id: \"%s\") { id phases { id name } } }"
+              % (int(row["ID pipe recepção"]))}
+          response = requests.request("POST", url, headers=headers, json=payload)
+          if json.loads(response.text)["data"]["pipe"] is not None:
+            print(json.loads(response.text))
+            database_data = json.loads(response.text)["data"]
+            pipePhasesDF = pipePhasesDF.append(processJsonDB(database_data))
+        except:
+          print("ID pipe recepção is null")
+    #responses = asyncio.run(makeAsyncApiCalls(requestsToProcess, phasesQuery))
 
-    pipePhasesDF.to_excel("files\\bdPipePhases.xlsx")
+
+    pipePhasesDF.to_excel("files/bdPipePhases.xlsx")
 
 
 #pull propertiesDB
@@ -105,61 +119,18 @@ def getAffiliatesPropertiesDB(affiliatesDBDF):
 
         hasNextPage = 0
         endCursor = 0
-
+        url = "https://api.pipefy.com/graphql"
         while True:
-
             if endCursor == 0:
-                params = {"paramTable" : item["db_key"]}
-                data_base_query = GQL(
-                    """
-                    query ($paramTable: ID!){
-                      table_records(table_id: $paramTable,first:50) {
-                        pageInfo {
-                          hasNextPage
-                          endCursor
-                        }
-                        edges {
-                          node {
-                            id
-                            record_fields {
-                              indexName
-                              name
-                              value
-                            }
-                          }
-                        }
-                      }
-                    }
-                    """
-                    )
+                payload = {"query": "{ table_records(table_id: \"%s\" ,first:50) { pageInfo { hasNextPage  endCursor } edges { node { id record_fields { indexName name value } } } } }" 
+                % (item["db_key"])}
             else:
-                params = {"paramTable" : item["db_key"],
-                              "paramAfter" : endCursor}
-                data_base_query = GQL(
-                    """
-                    query ($paramTable: ID!, $paramAfter: String!){
-                      table_records(table_id: $paramTable,first:50, after: $paramAfter) {
-                        pageInfo {
-                          hasNextPage
-                          endCursor
-                        }
-                        edges {
-                          node {
-                            id
-                            record_fields {
-                              indexName
-                              name
-                              value
-                            }
-                          }
-                        }
-                      }
-                    }
-                    """
-                    )
+                payload = {"query": "{ table_records(table_id: \"%s\" ,first:50, after: \"%s\") { pageInfo { hasNextPage  endCursor } edges { node { id record_fields { indexName name value } } } } }" 
+                % (item["db_key"], endCursor)}
 
-            db_data = client.execute(data_base_query, variable_values=params)
-
+                #db_data = client.execute(data_base_query, variable_values=params)
+            response = requests.request("POST", url, headers=headers, json=payload)
+            db_data = json.loads(response.text)["data"]
             db_dataDF = processJsonDB(data_blob=db_data, affiliateId=item["id"])
             affiliatePropertiesDB = affiliatePropertiesDB.append(db_dataDF)
 
@@ -170,7 +141,7 @@ def getAffiliatesPropertiesDB(affiliatesDBDF):
                 break
 
 
-    affiliatePropertiesDB.to_excel("files\\bdPropriedadesAfiliados.xlsx")
+    affiliatePropertiesDB.to_excel("files/bdPropriedadesAfiliados.xlsx")
 
 
 #pull cardsDB
@@ -221,67 +192,17 @@ def CollectAllReservationCards(affiliatesDBDF):
 
         while True:
             if endCursor == 0:
-                params = {"paramPipe" : item["pipe_key"]}
-                data_base_query = GQL(
-                    """
-                    query ($paramPipe: ID!){
-                      allCards(pipeId: $paramPipe, first:50){
-                        pageInfo {
-                          hasNextPage
-                          endCursor
-                        }
-                        edges {
-                          node {
-                          due_date
-                            id
-                            fields {
-                              indexName
-                              name
-                              value
-                            }
-                            current_phase{
-                              id
-                              name
-                            }
-                          }
-                        }
-                      }
-                    }
-                    """
-                    )
+                #params = {"paramPipe" : item["pipe_key"]}
+                payload = {"query":"{ allCards(pipeId: \"%s\" , first:50){ pageInfo { hasNextPage endCursor} edges { node { due_date id fields { indexName name value } current_phase{ id name } } } } }"
+                % (item["pipe_key"])}
             else:
-                params = {"paramPipe" : item["pipe_key"],
-                              "paramAfter" : endCursor}
-                data_base_query = GQL(
-                    """
-                    query ($paramPipe: ID!, $paramAfter: String!){
-                      allCards(pipeId: $paramPipe, first:50, after: $paramAfter){
-                        pageInfo {
-                          hasNextPage
-                          endCursor
-                        }
-                        edges {
-                          node {
-                            due_date
-                            id
-                            fields {
-                              indexName
-                              name
-                              value
-                            }
-                            current_phase{
-                              id
-                              name
-                            }
-                          }
-                        }
-                      }
-                    }
-                    """
-                    )
+                payload = {"query":"{ allCards(pipeId: \"%s\" , first:50, after: \"%s\" ){ pageInfo { hasNextPage endCursor} edges { node { due_date id fields { indexName name value } current_phase{ id name } } } } }"
+                % (item["pipe_key"], endCursor)}
+                
 
-            pipe_data = client.execute(data_base_query, variable_values=params)
-
+            #pipe_data = client.execute(data_base_query, variable_values=params)
+            response = requests.request("POST", "https://api.pipefy.com/graphql", headers=headers, json=payload)
+            pipe_data = json.loads(response.text)["data"]
 
             pipe_dataDF = processJsonPipe(data_blob=pipe_data, affiliateId=item["id"])
 
@@ -293,7 +214,7 @@ def CollectAllReservationCards(affiliatesDBDF):
             if hasNextPage != True:
                 break
 
-    reservationCardsDB.to_excel("files\\bdCardsReservas.xlsx")
+    reservationCardsDB.to_excel("files/bdCardsReservas.xlsx")
 
 if __name__ == "__main__":
     affiliatesDBDF = pd.read_excel(config.AFFILIATESDB_LOCATION)

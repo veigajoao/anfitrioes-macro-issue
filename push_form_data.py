@@ -120,8 +120,7 @@ def addGuestRegistrationInfo(ResDF, reservationCardsDB, affiliatesDBDF, properti
         formsToAdd.append({"api_key" : api_key,
                            "params" : params})
 
-    updateRegFormQuery = GQL(
-    """
+    updateRegFormQuery = """
     mutation($paramName: [UndefinedInput], $paramPhone: [UndefinedInput],
       			$paramAdress: [UndefinedInput],$paramUF: [UndefinedInput],
       			$paramCountry: [UndefinedInput],$paramCEP: [UndefinedInput],
@@ -178,7 +177,7 @@ def addGuestRegistrationInfo(ResDF, reservationCardsDB, affiliatesDBDF, properti
       }
     }
     """
-    )
+    
 
     def divide_chunks(l, n):
         # looping till length l
@@ -187,7 +186,7 @@ def addGuestRegistrationInfo(ResDF, reservationCardsDB, affiliatesDBDF, properti
 
     for chunk in divide_chunks(formsToAdd, 100):
 
-        asyncio.run(makeAsyncApiCalls(chunk, updateRegFormQuery))
+        makeAsyncApiCalls(chunk, updateRegFormQuery)
         time.sleep(1)
 
 if __name__ == "__main__":

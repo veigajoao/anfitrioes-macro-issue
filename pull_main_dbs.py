@@ -24,12 +24,15 @@ def pullAllDbsPipefy_main(token):
         "Content-Type": "application/json"
               }
 
+    url = "https://api.pipefy.com/graphql"
+
     transport = RequestsHTTPTransport(
         url="https://api.pipefy.com/graphql", verify=True, retries=3,
         headers=headers
     )
 
     client = Client(transport=transport, fetch_schema_from_transport=True)
+
 
     def processJsonDB(data_blob):
         listItems = data_blob["table_records"]["edges"]
@@ -44,61 +47,26 @@ def pullAllDbsPipefy_main(token):
             func_df = func_df.append(_df)
         return func_df
 
-    def requestForLoop(endCursor, tableId, client):
-        if endCursor == 0:
-            params = {"paramTable" : tableId}
-            data_base_query = GQL(
-            """
-            query ($paramTable: ID!){
-              table_records(table_id: $paramTable,first:50) {
-                pageInfo {
-                  hasNextPage
-                  endCursor
-                }
-                edges {
-                  node {
-                    id
-                    record_fields {
-                      indexName
-                      name
-                      value
-                    }
-                  }
-                }
+    def requestForLoop(endCursor, tableId):
+        headers = {
+        "Authorization": "Bearer {}".format(token),
+        "Content-Type": "application/json"
               }
-            }
-            """
-            )
-        else:
-            params = {"paramTable" : tableId,
-                      "paramAfter" : endCursor}
-            data_base_query = GQL(
-            """
-            query ($paramTable: ID!, $paramAfter: String!){
-              table_records(table_id: $paramTable,first:50, after: $paramAfter) {
-                pageInfo {
-                  hasNextPage
-                  endCursor
-                }
-                edges {
-                  node {
-                    id
-                    record_fields {
-                      indexName
-                      name
-                      value
-                    }
-                  }
-                }
-              }
-            }
-            """
-            )
 
-        database_data = client.execute(data_base_query, variable_values=params)
-        return {"data" : processJsonDB(database_data),
-                "hasNextPage" : database_data["table_records"]["pageInfo"]["hasNextPage"],
-                "endCursor" : database_data["table_records"]["pageInfo"]["endCursor"],
+        url = "https://api.pipefy.com/graphql"
+
+        if endCursor == 0:
+            payload = {"query": "{ table_records(table_id: \"%s\" ,first:50) { pageInfo { hasNextPage  endCursor } edges { node { id record_fields { indexName name value } } } } }" 
+            % (tableId)}
+        else:
+            payload = {"query": "{ table_records(table_id: \"%s\" ,first:50, after: \"%s\") { pageInfo { hasNextPage  endCursor } edges { node { id record_fields { indexName name value } } } } }" 
+            % (tableId, endCursor)}
+        
+        response = requests.request("POST", url, headers=headers, json=payload)
+        database_data = response.text
+        return {"data" : processJsonDB(json.loads(database_data)["data"]),
+                "hasNextPage" : json.loads(database_data)["data"]["table_records"]["pageInfo"]["hasNextPage"],
+                "endCursor" : json.loads(database_data)["data"]["table_records"]["pageInfo"]["endCursor"],
                 }
 
 
@@ -108,7 +76,7 @@ def pullAllDbsPipefy_main(token):
     endCursor = 0
     propertiesDBDF = pd.DataFrame()
     while True:
-        propertiesDBResult = requestForLoop(endCursor=endCursor, tableId=dbCode, client=client)
+        propertiesDBResult = requestForLoop(endCursor=endCursor, tableId=dbCode)
         endCursor = propertiesDBResult["endCursor"]
         propertiesDBDF = propertiesDBDF.append(propertiesDBResult["data"])
         if propertiesDBResult["hasNextPage"] == False:
@@ -122,7 +90,7 @@ def pullAllDbsPipefy_main(token):
     endCursor = 0
     ownersDBDF = pd.DataFrame()
     while True:
-        ownersDBResult = requestForLoop(endCursor=endCursor, tableId=dbCode, client=client)
+        ownersDBResult = requestForLoop(endCursor=endCursor, tableId=dbCode)
         endCursor = ownersDBResult["endCursor"]
         ownersDBDF = ownersDBDF.append(ownersDBResult["data"])
         if ownersDBResult["hasNextPage"] == False:
@@ -135,7 +103,7 @@ def pullAllDbsPipefy_main(token):
     endCursor = 0
     affiliatesDBDF = pd.DataFrame()
     while True:
-        affiliatesDBResult = requestForLoop(endCursor=endCursor, tableId=dbCode, client=client)
+        affiliatesDBResult = requestForLoop(endCursor=endCursor, tableId=dbCode)
         endCursor = affiliatesDBResult["endCursor"]
         affiliatesDBDF = affiliatesDBDF.append(affiliatesDBResult["data"])
         if affiliatesDBResult["hasNextPage"] == False:
@@ -148,7 +116,7 @@ def pullAllDbsPipefy_main(token):
     endCursor = 0
     indicationAffiliatesDBDF = pd.DataFrame()
     while True:
-        indicationAffiliatesDBResult = requestForLoop(endCursor=endCursor, tableId=dbCode, client=client)
+        indicationAffiliatesDBResult = requestForLoop(endCursor=endCursor, tableId=dbCode)
         endCursor = indicationAffiliatesDBResult["endCursor"]
         indicationAffiliatesDBDF = indicationAffiliatesDBDF.append(indicationAffiliatesDBResult["data"])
         if indicationAffiliatesDBResult["hasNextPage"] == False:

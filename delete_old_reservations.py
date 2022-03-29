@@ -29,8 +29,7 @@ def deleteOldReservations(reservationCardsDB, affiliatesDBDF):
 
     reservationsToCancel = reservationsToCancel.append(reservationsToCancel2)
 
-    deleteCardQuery = GQL(
-    """
+    deleteCardQuery = """
     mutation($paramCardId: ID!){
       deleteCard(input:{id: $paramCardId}){
         clientMutationId
@@ -38,7 +37,6 @@ def deleteOldReservations(reservationCardsDB, affiliatesDBDF):
       }
     }
     """
-    )
 
     cardsToCancel = []
     for index, row in reservationsToCancel.iterrows():
@@ -53,7 +51,7 @@ def deleteOldReservations(reservationCardsDB, affiliatesDBDF):
 
     for chunk in divide_chunks(cardsToCancel, 200):
 
-        asyncio.run(makeAsyncApiCalls(chunk, deleteCardQuery))
+        makeAsyncApiCalls(chunk, deleteCardQuery)
         time.sleep(1)
 
 

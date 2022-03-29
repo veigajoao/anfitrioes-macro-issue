@@ -29,7 +29,9 @@ from gql import gql as GQL
 ###
 #update affiliates DBs
 #pull main dbs
+
 pull_main_dbs.pullAllDbsPipefy_main(config.token_main)
+print("push main done")
 
 #pull agg dbs
 affiliatesDBDF = pd.read_excel(config.AFFILIATESDB_LOCATION)
@@ -46,6 +48,8 @@ ownersDBDF = pd.read_excel(config.MAIN_OWNERSDB_LOCATION)
 push_affiliate_dbs.pushNewPropertiesToAffiliatesPropertiesDB(affiliatePropertiesDBDF = affiliatePropertiesDBDF, propertiesDBDF = propertiesDBDF, affiliatesDBDF = affiliatesDBDF, ownersDBDF = ownersDBDF)
 print("push dbs done")
 
+
+
 #backup
 ResDF = pd.read_csv(config.RESERVATIONS_SHEET_LOCATION, header=1)
 reservationCardsDB = pd.read_excel(config.RESERVATIONCARDS_LOCATION)
@@ -57,8 +61,6 @@ pipePhasesDF = pd.read_excel(config.PIPEPHASESDB_LOCATION)
 save_dbs_backups.backupAllDbFiles(reservationCardsDB=reservationCardsDB, affiliatesDBDF=affiliatesDBDF, propertiesDBDF=propertiesDBDF, ownersDBDF=ownersDBDF, affiliatePropertiesDBDF=affiliatePropertiesDBDF, pipePhasesDF=pipePhasesDF)
 
 ###
-
-
 
 #pull main dbs
 pull_main_dbs.pullAllDbsPipefy_main(config.token_main)

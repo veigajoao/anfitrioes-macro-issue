@@ -35,8 +35,7 @@ def pushNewPropertiesToAffiliatesPropertiesDB(affiliatePropertiesDBDF, propertie
                       "dados_contrato_wifi", "instru_es_do_check_in", "instru_es_do_check_out", "descri_o_chaves_da_propriedade")
 
     #identify all properties that haven't been added to their correct owner
-    createTableRecordQuery = GQL(
-    """
+    createTableRecordQuery = """
     mutation($paramCode: [UndefinedInput], $paramActive: [UndefinedInput], $paramStreet: [UndefinedInput],
              $paramBuild: [UndefinedInput], $paramFloor: [UndefinedInput], $paramApto: [UndefinedInput],
              $paramCep: [UndefinedInput], $paramNeigh: [UndefinedInput], $paramCity: [UndefinedInput],
@@ -86,10 +85,9 @@ def pushNewPropertiesToAffiliatesPropertiesDB(affiliatePropertiesDBDF, propertie
       }
     }
     """
-    )
+    
 
-    alterTableRecordQuery = GQL(
-    """
+    alterTableRecordQuery = """
     mutation($paramId: ID!, $paramFieldId: ID!, $paramValue: [UndefinedInput]){
       setTableRecordFieldValue(input:{
         table_record_id: $paramId
@@ -100,7 +98,7 @@ def pushNewPropertiesToAffiliatesPropertiesDB(affiliatePropertiesDBDF, propertie
       }
     }
     """
-    )
+    
 
     recordsToBuild = []
     alterationsToPass = []
@@ -220,12 +218,12 @@ def pushNewPropertiesToAffiliatesPropertiesDB(affiliatePropertiesDBDF, propertie
 
     for chunk in divide_chunks(recordsToBuild, 100):
 
-        asyncio.run(makeAsyncApiCalls(chunk, createTableRecordQuery))
+        makeAsyncApiCalls(chunk, createTableRecordQuery)
         time.sleep(1)
 
     for chunk in divide_chunks(alterationsToPass, 100):
 
-        asyncio.run(makeAsyncApiCalls(chunk, alterTableRecordQuery))
+        makeAsyncApiCalls(chunk, alterTableRecordQuery)
         time.sleep(1)
 
 

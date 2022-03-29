@@ -18,12 +18,12 @@ from gql import Client
 from gql import gql as GQL
 
 def backupAllDbFiles(reservationCardsDB, affiliatesDBDF, propertiesDBDF, ownersDBDF, affiliatePropertiesDBDF, pipePhasesDF):
-    reservationCardsDB.to_excel(config.RESERVATIONCARDS_BACKUP_FOLDER + "\\bdCardsReservas" + "-" + datetime.datetime.now().strftime("%Y-%m-%d--%H-%M-%S") + ".xlsx")
-    affiliatesDBDF.to_excel(config.AFFILIATESDB_BACKUP_FOLDER + "\\bdAfiliados" + "-" + datetime.datetime.now().strftime("%Y-%m-%d--%H-%M-%S") + ".xlsx")
-    propertiesDBDF.to_excel(config.MAIN_PROPERTIESDB_BACKUP_FOLDER + "\\bdPropriedades" + "-" + datetime.datetime.now().strftime("%Y-%m-%d--%H-%M-%S") + ".xlsx")
-    ownersDBDF.to_excel(config.MAIN_OWNERSDB_BACKUP_FOLDER + "\\bdProprietários" + "-" + datetime.datetime.now().strftime("%Y-%m-%d--%H-%M-%S") + ".xlsx")
-    affiliatePropertiesDBDF.to_excel(config.AFFILIATES_PROPERTYDB_BACKUP_FOLDER + "\\bdPropriedadesAfiliados" + "-" + datetime.datetime.now().strftime("%Y-%m-%d--%H-%M-%S") + ".xlsx")
-    pipePhasesDF.to_excel(config.PIPEPHASESDB_BACKUP_FOLDER + "\\bdPipePhases" + "-" + datetime.datetime.now().strftime("%Y-%m-%d--%H-%M-%S") + ".xlsx")
+    reservationCardsDB.to_excel(config.RESERVATIONCARDS_BACKUP_FOLDER + "/bdCardsReservas" + "-" + datetime.datetime.now().strftime("%Y-%m-%d--%H-%M-%S") + ".xlsx")
+    affiliatesDBDF.to_excel(config.AFFILIATESDB_BACKUP_FOLDER + "/bdAfiliados" + "-" + datetime.datetime.now().strftime("%Y-%m-%d--%H-%M-%S") + ".xlsx")
+    propertiesDBDF.to_excel(config.MAIN_PROPERTIESDB_BACKUP_FOLDER + "/bdPropriedades" + "-" + datetime.datetime.now().strftime("%Y-%m-%d--%H-%M-%S") + ".xlsx")
+    ownersDBDF.to_excel(config.MAIN_OWNERSDB_BACKUP_FOLDER + "/bdProprietários" + "-" + datetime.datetime.now().strftime("%Y-%m-%d--%H-%M-%S") + ".xlsx")
+    affiliatePropertiesDBDF.to_excel(config.AFFILIATES_PROPERTYDB_BACKUP_FOLDER + "/bdPropriedadesAfiliados" + "-" + datetime.datetime.now().strftime("%Y-%m-%d--%H-%M-%S") + ".xlsx")
+    pipePhasesDF.to_excel(config.PIPEPHASESDB_BACKUP_FOLDER + "/bdPipePhases" + "-" + datetime.datetime.now().strftime("%Y-%m-%d--%H-%M-%S") + ".xlsx")
 
 
 if __name__ == "__main__":

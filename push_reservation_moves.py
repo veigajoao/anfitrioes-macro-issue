@@ -28,8 +28,7 @@ def moveCardsBetweenPhases(reservationCardsDB, affiliatesDBDF, propertiesDBDF, p
         for i in range(0, len(l), n):
             yield l[i:i + n]
 
-    moveQuery = GQL(
-    """
+    moveQuery = """
     mutation($paramCardId: ID!, $paramDestPhase: ID!){
         moveCardToPhase(input:{
             card_id: $paramCardId,
@@ -39,7 +38,7 @@ def moveCardsBetweenPhases(reservationCardsDB, affiliatesDBDF, propertiesDBDF, p
                 }
             }
     """
-    )
+    
 
 
     #movereservations to check-in
@@ -55,14 +54,16 @@ def moveCardsBetweenPhases(reservationCardsDB, affiliatesDBDF, propertiesDBDF, p
 
     checkinMovesToMake = []
     for index, row in CheckinDB.iterrows():
-        params = {"paramCardId" : str(row["id"]),
-                  "paramDestPhase" : str(pipePhasesDF[pipePhasesDF["pipe_id"]==affiliatesDBDF[affiliatesDBDF["id"]==row["AffiliateId"]]["ID pipe recepção"].values[0]]["Check-in"].values[0])}
-        api_key = str(affiliatesDBDF[affiliatesDBDF["id"]==row["AffiliateId"]]["Chave pipefy"].values[0])
-        checkinMovesToMake.append({"params" : params, "api_key" : api_key})
-
+        try:
+            params = {"paramCardId" : str(row["id"]),
+                    "paramDestPhase" : str(pipePhasesDF[pipePhasesDF["pipe_id"]==affiliatesDBDF[affiliatesDBDF["id"]==row["AffiliateId"]]["ID pipe recepção"].values[0]]["Check-in"].values[0])}
+            api_key = str(affiliatesDBDF[affiliatesDBDF["id"]==row["AffiliateId"]]["Chave pipefy"].values[0])
+            checkinMovesToMake.append({"params" : params, "api_key" : api_key})
+        except Exception as E:
+            print(E)
     for chunk in divide_chunks(checkinMovesToMake, 300):
 
-        asyncio.run(makeAsyncApiCalls(chunk, moveQuery))
+        makeAsyncApiCalls(chunk, moveQuery)
         time.sleep(1)
 
     print("moves check-in OK")
@@ -81,14 +82,17 @@ def moveCardsBetweenPhases(reservationCardsDB, affiliatesDBDF, propertiesDBDF, p
 
     preCheckinMovesToMake = []
     for index, row in preCheckinDB.iterrows():
-        params = {"paramCardId" : str(row["id"]),
-                  "paramDestPhase" : str(pipePhasesDF[pipePhasesDF["pipe_id"]==affiliatesDBDF[affiliatesDBDF["id"]==row["AffiliateId"]]["ID pipe recepção"].values[0]]["Próximos check-ins (2 dias)"].values[0])}
-        api_key = str(affiliatesDBDF[affiliatesDBDF["id"]==row["AffiliateId"]]["Chave pipefy"].values[0])
-        preCheckinMovesToMake.append({"params" : params, "api_key" : api_key})
+        try:
+            params = {"paramCardId" : str(row["id"]),
+                    "paramDestPhase" : str(pipePhasesDF[pipePhasesDF["pipe_id"]==affiliatesDBDF[affiliatesDBDF["id"]==row["AffiliateId"]]["ID pipe recepção"].values[0]]["Próximos check-ins (2 dias)"].values[0])}
+            api_key = str(affiliatesDBDF[affiliatesDBDF["id"]==row["AffiliateId"]]["Chave pipefy"].values[0])
+            preCheckinMovesToMake.append({"params" : params, "api_key" : api_key})
+        except Exception as E:
+            print(E)
 
     for chunk in divide_chunks(preCheckinMovesToMake, 300):
 
-        asyncio.run(makeAsyncApiCalls(chunk, moveQuery))
+        makeAsyncApiCalls(chunk, moveQuery)
         time.sleep(1)
 
     print("moves pre check-in OK")
@@ -103,15 +107,18 @@ def moveCardsBetweenPhases(reservationCardsDB, affiliatesDBDF, propertiesDBDF, p
 
     CheckoutMovesToMake = []
     for index, row in CheckoutDB.iterrows():
-        params = {"paramCardId" : str(row["id"]),
-                  "paramDestPhase" : str(pipePhasesDF[pipePhasesDF["pipe_id"]==affiliatesDBDF[affiliatesDBDF["id"]==row["AffiliateId"]]["ID pipe recepção"].values[0]]["Check-out"].values[0]),
-                  }
-        api_key = str(affiliatesDBDF[affiliatesDBDF["id"]==row["AffiliateId"]]["Chave pipefy"].values[0])
-        CheckoutMovesToMake.append({"params" : params, "api_key" : api_key})
+        try:
+            params = {"paramCardId" : str(row["id"]),
+                    "paramDestPhase" : str(pipePhasesDF[pipePhasesDF["pipe_id"]==affiliatesDBDF[affiliatesDBDF["id"]==row["AffiliateId"]]["ID pipe recepção"].values[0]]["Check-out"].values[0]),
+                    }
+            api_key = str(affiliatesDBDF[affiliatesDBDF["id"]==row["AffiliateId"]]["Chave pipefy"].values[0])
+            CheckoutMovesToMake.append({"params" : params, "api_key" : api_key})
+        except Exception as E:
+            print(E)
 
     for chunk in divide_chunks(CheckoutMovesToMake, 300):
 
-        asyncio.run(makeAsyncApiCalls(chunk, moveQuery))
+        makeAsyncApiCalls(chunk, moveQuery)
         time.sleep(1)
 
     print("moves check-out OK")
