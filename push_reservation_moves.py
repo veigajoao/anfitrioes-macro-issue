@@ -149,3 +149,5 @@ if __name__ == "__main__":
     propertiesDBDF = pd.read_excel(config.MAIN_PROPERTIESDB_LOCATION)
     pipePhasesDF = pd.read_excel(config.PIPEPHASESDB_LOCATION)
     moveCardsBetweenPhases(reservationCardsDB=reservationCardsDB, affiliatesDBDF=affiliatesDBDF, propertiesDBDF=propertiesDBDF, pipePhasesDF=pipePhasesDF)
+
+

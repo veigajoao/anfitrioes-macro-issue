@@ -58,21 +58,28 @@ def getPipePhasesIds(affiliatesDBDF):
     for index, row in affiliatesDBDF.iterrows():
         #params = {"paramPipeId" : row["ID pipe recepção"]}
         #dictToProcess = {"params" : params, "api_key" : row["Chave pipefy"]}
-        print(row["ID pipe recepção"])
+        #print(row["ID pipe recepção"])
+        
+        headers = {
+        "Authorization": "Bearer {}".format(row["Chave pipefy"]),
+        "Content-Type": "application/json"
+              }
+        
         try:
           payload = {"query": "{ pipe(id: \"%s\") { id phases { id name } } }"
               % (int(row["ID pipe recepção"]))}
           response = requests.request("POST", url, headers=headers, json=payload)
-          if json.loads(response.text)["data"]["pipe"] is not None:
-            print(json.loads(response.text))
-            database_data = json.loads(response.text)["data"]
-            pipePhasesDF = pipePhasesDF.append(processJsonDB(database_data))
-        except:
-          print("ID pipe recepção is null")
+          
+          database_data = json.loads(response.text)["data"]
+          pipePhasesDF = pipePhasesDF.append(processJsonDB(database_data))
+        except Exception as E:
+          print("Essa requisição não possui ID pipe recepção -> não há afiliado relacionado")
+          print(E)
+    
     #responses = asyncio.run(makeAsyncApiCalls(requestsToProcess, phasesQuery))
 
 
-    pipePhasesDF.to_excel("files/bdPipePhases.xlsx")
+    pipePhasesDF.to_excel("files\\bdPipePhases.xlsx")
 
 
 #pull propertiesDB
@@ -141,7 +148,7 @@ def getAffiliatesPropertiesDB(affiliatesDBDF):
                 break
 
 
-    affiliatePropertiesDB.to_excel("files/bdPropriedadesAfiliados.xlsx")
+    affiliatePropertiesDB.to_excel("files\\bdPropriedadesAfiliados.xlsx")
 
 
 #pull cardsDB
@@ -214,13 +221,13 @@ def CollectAllReservationCards(affiliatesDBDF):
             if hasNextPage != True:
                 break
 
-    reservationCardsDB.to_excel("files/bdCardsReservas.xlsx")
+    reservationCardsDB.to_excel("files\\bdCardsReservas.xlsx")
 
 if __name__ == "__main__":
     affiliatesDBDF = pd.read_excel(config.AFFILIATESDB_LOCATION)
     getPipePhasesIds(affiliatesDBDF=affiliatesDBDF)
     print("Pipephases Done")
-    getAffiliatesPropertiesDB(affiliatesDBDF=affiliatesDBDF)
+    #getAffiliatesPropertiesDB(affiliatesDBDF=affiliatesDBDF)
     print("Affiliates DBs Done")
-    CollectAllReservationCards(affiliatesDBDF=affiliatesDBDF)
+    #CollectAllReservationCards(affiliatesDBDF=affiliatesDBDF)
     print("ReservationCards Done")

@@ -37,7 +37,8 @@ print("push main done")
 affiliatesDBDF = pd.read_excel(config.AFFILIATESDB_LOCATION)
 pull_agg_dbs.getPipePhasesIds(affiliatesDBDF=affiliatesDBDF)
 print("Pipephases Done")
-pull_agg_dbs.getAffiliatesPropertiesDB(affiliatesDBDF=affiliatesDBDF)
+
+#pull_agg_dbs.getAffiliatesPropertiesDB(affiliatesDBDF=affiliatesDBDF)
 print("Affiliates DBs Done")
 
 #update afiliate dbs
@@ -49,7 +50,7 @@ push_affiliate_dbs.pushNewPropertiesToAffiliatesPropertiesDB(affiliateProperties
 print("push dbs done")
 
 
-
+'''
 #backup
 ResDF = pd.read_csv(config.RESERVATIONS_SHEET_LOCATION, header=1)
 reservationCardsDB = pd.read_excel(config.RESERVATIONCARDS_LOCATION)
@@ -59,7 +60,7 @@ ownersDBDF = pd.read_excel(config.MAIN_OWNERSDB_LOCATION)
 affiliatePropertiesDBDF = pd.read_excel(config.AFFILIATES_PROPERTYDB_LOCATION)
 pipePhasesDF = pd.read_excel(config.PIPEPHASESDB_LOCATION)
 save_dbs_backups.backupAllDbFiles(reservationCardsDB=reservationCardsDB, affiliatesDBDF=affiliatesDBDF, propertiesDBDF=propertiesDBDF, ownersDBDF=ownersDBDF, affiliatePropertiesDBDF=affiliatePropertiesDBDF, pipePhasesDF=pipePhasesDF)
-
+'''
 ###
 
 #pull main dbs
@@ -90,6 +91,7 @@ print("Alter Reservations Done")
 pull_agg_dbs.CollectAllReservationCards(affiliatesDBDF)
 print("Update Reservation Cards DB Done")
 
+
 #make reservation moves
 ResDF = pd.read_csv(config.RESERVATIONS_SHEET_LOCATION, header=1)
 reservationCardsDB = pd.read_excel(config.RESERVATIONCARDS_LOCATION)
@@ -98,6 +100,7 @@ propertiesDBDF = pd.read_excel(config.MAIN_PROPERTIESDB_LOCATION)
 pipePhasesDF = pd.read_excel(config.PIPEPHASESDB_LOCATION)
 push_reservation_moves.moveCardsBetweenPhases(reservationCardsDB=reservationCardsDB, affiliatesDBDF=affiliatesDBDF, propertiesDBDF=propertiesDBDF, pipePhasesDF=pipePhasesDF)
 print("Move cards Done")
+
 
 #push form data
 ResDF = pd.read_csv(config.RESERVATIONS_SHEET_LOCATION, header=1)
@@ -115,6 +118,7 @@ reservationCardsDB = pd.read_excel(config.RESERVATIONCARDS_LOCATION)
 delete_old_reservations.deleteOldReservations(reservationCardsDB=reservationCardsDB, affiliatesDBDF=affiliatesDBDF)
 print("Cancel old reservations Done")
 
+'''
 #backup
 ResDF = pd.read_csv(config.RESERVATIONS_SHEET_LOCATION, header=1)
 reservationCardsDB = pd.read_excel(config.RESERVATIONCARDS_LOCATION)
@@ -125,3 +129,4 @@ affiliatePropertiesDBDF = pd.read_excel(config.AFFILIATES_PROPERTYDB_LOCATION)
 pipePhasesDF = pd.read_excel(config.PIPEPHASESDB_LOCATION)
 save_dbs_backups.backupAllDbFiles(reservationCardsDB=reservationCardsDB, affiliatesDBDF=affiliatesDBDF, propertiesDBDF=propertiesDBDF, ownersDBDF=ownersDBDF, affiliatePropertiesDBDF=affiliatePropertiesDBDF, pipePhasesDF=pipePhasesDF)
 print("backup Done")
+'''

@@ -82,7 +82,7 @@ def pullAllDbsPipefy_main(token):
         if propertiesDBResult["hasNextPage"] == False:
             break
 
-    propertiesDBDF.to_excel("files\\bdPropriedades.xlsx")
+    propertiesDBDF.to_excel("files/bdPropriedades.xlsx")
 
 
     #propertiesDB
@@ -96,7 +96,7 @@ def pullAllDbsPipefy_main(token):
         if ownersDBResult["hasNextPage"] == False:
             break
 
-    ownersDBDF.to_excel("files\\bdProprietários.xlsx")
+    ownersDBDF.to_excel("files/bdProprietários.xlsx")
 
     #affiliatesDB
     dbCode = "cqd6OLsc"
@@ -109,7 +109,7 @@ def pullAllDbsPipefy_main(token):
         if affiliatesDBResult["hasNextPage"] == False:
             break
 
-    affiliatesDBDF.to_excel("files\\bdAfiliados.xlsx")
+    affiliatesDBDF.to_excel("files/bdAfiliados.xlsx")
 
     #indication affiliates DBDF
     dbCode = "WxIC2PJI"
@@ -122,7 +122,7 @@ def pullAllDbsPipefy_main(token):
         if indicationAffiliatesDBResult["hasNextPage"] == False:
             break
 
-    indicationAffiliatesDBDF.to_excel("files\\bdAfiliadosIndicação.xlsx")
+    indicationAffiliatesDBDF.to_excel("files/bdAfiliadosIndicação.xlsx")
 
 if __name__ == "__main__":
     pullAllDbsPipefy_main(config.token_main)
