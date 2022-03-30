@@ -37,7 +37,6 @@ print("push main done")
 affiliatesDBDF = pd.read_excel(config.AFFILIATESDB_LOCATION)
 pull_agg_dbs.getPipePhasesIds(affiliatesDBDF=affiliatesDBDF)
 print("Pipephases Done")
-
 #pull_agg_dbs.getAffiliatesPropertiesDB(affiliatesDBDF=affiliatesDBDF)
 print("Affiliates DBs Done")
 
@@ -48,7 +47,6 @@ affiliatesDBDF = pd.read_excel(config.AFFILIATESDB_LOCATION)
 ownersDBDF = pd.read_excel(config.MAIN_OWNERSDB_LOCATION)
 push_affiliate_dbs.pushNewPropertiesToAffiliatesPropertiesDB(affiliatePropertiesDBDF = affiliatePropertiesDBDF, propertiesDBDF = propertiesDBDF, affiliatesDBDF = affiliatesDBDF, ownersDBDF = ownersDBDF)
 print("push dbs done")
-
 
 '''
 #backup

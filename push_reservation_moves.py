@@ -54,13 +54,11 @@ def moveCardsBetweenPhases(reservationCardsDB, affiliatesDBDF, propertiesDBDF, p
 
     checkinMovesToMake = []
     for index, row in CheckinDB.iterrows():
-        try:
-            params = {"paramCardId" : str(row["id"]),
-                    "paramDestPhase" : str(pipePhasesDF[pipePhasesDF["pipe_id"]==affiliatesDBDF[affiliatesDBDF["id"]==row["AffiliateId"]]["ID pipe recepção"].values[0]]["Check-in"].values[0])}
-            api_key = str(affiliatesDBDF[affiliatesDBDF["id"]==row["AffiliateId"]]["Chave pipefy"].values[0])
-            checkinMovesToMake.append({"params" : params, "api_key" : api_key})
-        except Exception as E:
-            print(E)
+        params = {"paramCardId" : str(row["id"]),
+                  "paramDestPhase" : str(pipePhasesDF[pipePhasesDF["pipe_id"]==affiliatesDBDF[affiliatesDBDF["id"]==row["AffiliateId"]]["ID pipe recepção"].values[0]]["Check-in"].values[0])}
+        api_key = str(affiliatesDBDF[affiliatesDBDF["id"]==row["AffiliateId"]]["Chave pipefy"].values[0])
+        checkinMovesToMake.append({"params" : params, "api_key" : api_key})
+
     for chunk in divide_chunks(checkinMovesToMake, 300):
 
         makeAsyncApiCalls(chunk, moveQuery)
@@ -82,13 +80,10 @@ def moveCardsBetweenPhases(reservationCardsDB, affiliatesDBDF, propertiesDBDF, p
 
     preCheckinMovesToMake = []
     for index, row in preCheckinDB.iterrows():
-        try:
-            params = {"paramCardId" : str(row["id"]),
-                    "paramDestPhase" : str(pipePhasesDF[pipePhasesDF["pipe_id"]==affiliatesDBDF[affiliatesDBDF["id"]==row["AffiliateId"]]["ID pipe recepção"].values[0]]["Próximos check-ins (2 dias)"].values[0])}
-            api_key = str(affiliatesDBDF[affiliatesDBDF["id"]==row["AffiliateId"]]["Chave pipefy"].values[0])
-            preCheckinMovesToMake.append({"params" : params, "api_key" : api_key})
-        except Exception as E:
-            print(E)
+        params = {"paramCardId" : str(row["id"]),
+                  "paramDestPhase" : str(pipePhasesDF[pipePhasesDF["pipe_id"]==affiliatesDBDF[affiliatesDBDF["id"]==row["AffiliateId"]]["ID pipe recepção"].values[0]]["Próximos check-ins (2 dias)"].values[0])}
+        api_key = str(affiliatesDBDF[affiliatesDBDF["id"]==row["AffiliateId"]]["Chave pipefy"].values[0])
+        preCheckinMovesToMake.append({"params" : params, "api_key" : api_key})
 
     for chunk in divide_chunks(preCheckinMovesToMake, 300):
 
@@ -107,14 +102,13 @@ def moveCardsBetweenPhases(reservationCardsDB, affiliatesDBDF, propertiesDBDF, p
 
     CheckoutMovesToMake = []
     for index, row in CheckoutDB.iterrows():
-        try:
-            params = {"paramCardId" : str(row["id"]),
-                    "paramDestPhase" : str(pipePhasesDF[pipePhasesDF["pipe_id"]==affiliatesDBDF[affiliatesDBDF["id"]==row["AffiliateId"]]["ID pipe recepção"].values[0]]["Check-out"].values[0]),
-                    }
-            api_key = str(affiliatesDBDF[affiliatesDBDF["id"]==row["AffiliateId"]]["Chave pipefy"].values[0])
-            CheckoutMovesToMake.append({"params" : params, "api_key" : api_key})
-        except Exception as E:
-            print(E)
+        print(row)
+        print("________________________________")
+        params = {"paramCardId" : str(row["id"]),
+                  "paramDestPhase" : str(pipePhasesDF[pipePhasesDF["pipe_id"]==affiliatesDBDF[affiliatesDBDF["id"]==row["AffiliateId"]]["ID pipe recepção"].values[0]]["Check-out"].values[0]),
+                  }
+        api_key = str(affiliatesDBDF[affiliatesDBDF["id"]==row["AffiliateId"]]["Chave pipefy"].values[0])
+        CheckoutMovesToMake.append({"params" : params, "api_key" : api_key})
 
     for chunk in divide_chunks(CheckoutMovesToMake, 300):
 
@@ -149,5 +143,3 @@ if __name__ == "__main__":
     propertiesDBDF = pd.read_excel(config.MAIN_PROPERTIESDB_LOCATION)
     pipePhasesDF = pd.read_excel(config.PIPEPHASESDB_LOCATION)
     moveCardsBetweenPhases(reservationCardsDB=reservationCardsDB, affiliatesDBDF=affiliatesDBDF, propertiesDBDF=propertiesDBDF, pipePhasesDF=pipePhasesDF)
-
-
